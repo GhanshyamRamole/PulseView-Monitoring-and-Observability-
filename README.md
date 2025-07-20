@@ -280,36 +280,4 @@ docker-compose down -v
 docker image prune
 ```
 
----
 
-## 📚 What You Learned
-
-- Set up observability using Prometheus + Grafana  
-- Collect system, container, and application metrics  
-- Visualize and alert with Grafana  
-- Monitor Kubernetes and AWS services  
-- Write PromQL queries for powerful insights  
-
----
-
-## 📈 Real-World Use Cases
-
-- SRE monitoring of SLIs and SLOs  
-- Incident troubleshooting  
-- Performance optimization  
-- Capacity planning  
-- End-to-end observability for DevOps pipelines
-
----
-
-## ⏭️ Next Steps
-
-- Add custom metrics to your app  
-- Integrate centralized logging with ELK or Loki  
-- Add distributed tracing using Jaeger or OpenTelemetry  
-- Define and track SLIs/SLOs  
-- Move on to **Project 5: Multi-Environment Setup**
-
----
-
-🎉 **Congratulations!** You now have a professional-grade monitoring and observability system in place!
