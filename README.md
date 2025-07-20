@@ -1,1 +1,315 @@
 Monitoring and Observability
+
+# 📊 Project 4: Monitoring and Observability
+
+Set up comprehensive, production-grade monitoring for your applications using Prometheus, Grafana, Node Exporter, cAdvisor, and AlertManager.
+
+---
+
+## 🚀 What This Project Includes
+
+- **Prometheus** – Metrics collection and time-series database  
+- **Grafana** – Visualization and alerting dashboards  
+- **Node Exporter** – System-level metrics (CPU, memory, disk)  
+- **cAdvisor** – Container-level metrics  
+- **AlertManager** – Alert routing and notifications  
+- **Custom Dashboards** – Tailored views for your applications  
+
+---
+
+## 🧱 Architecture
+
+```
+Your App → Prometheus → Grafana → Beautiful Dashboards
+↓           ↓           ↓
+System Metrics → Alerts → Notifications
+```
+
+---
+
+## 🛠️ Prerequisites
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- Your own web application (optional)
+- A modern web browser
+
+---
+
+## 📦 Setup Instructions
+
+### Step 1: Start Monitoring Stack
+
+```bash
+docker-compose up -d
+docker-compose ps
+```
+
+**Ports:**
+- Prometheus → `9090`
+- Grafana → `3000`
+- Node Exporter → `9100`
+- cAdvisor → `8080`
+- AlertManager → `9093`
+
+---
+
+### Step 2: Access the Tools
+
+- **Prometheus**: [http://localhost:9090](http://localhost:9090)  
+  - Check `Status` → `Targets`  
+  - Try query: `up`
+
+- **Grafana**: [http://localhost:3000](http://localhost:3000)  
+  - Login: `admin` / `admin`  
+  - Explore dashboards
+
+- **Node Exporter**: [http://localhost:9100/metrics](http://localhost:9100/metrics)  
+- **cAdvisor**: [http://localhost:8080](http://localhost:8080)
+
+---
+
+### Step 3: Configure Grafana Data Source
+
+1. Go to ⚙️ → **Data Sources**  
+2. Click **Add data source**  
+3. Choose **Prometheus**  
+4. Set URL: `http://prometheus:9090`  
+5. Click **Save & Test**
+
+---
+
+### Step 4: Create Dashboards
+
+#### Option 1: Import Prebuilt Dashboard
+
+- ➕ → **Import**  
+- Enter ID: `1860` (Node Exporter Full)  
+- Select Prometheus as data source  
+- Click **Import**
+
+#### Option 2: Create Custom Dashboard
+
+1. ➕ → **Dashboard** → Add Panel  
+2. Select Prometheus as data source  
+3. Enter query: `up`  
+4. Click **Apply** and **Save**
+
+---
+
+### Step 5: Monitor Your Web Application
+
+```bash
+cd ../project-2-cicd-pipeline
+npm start
+```
+
+- Check Prometheus Targets: [http://localhost:9090/targets](http://localhost:9090/targets)  
+- Import `webapp-dashboard.json` or create a custom dashboard
+
+---
+
+### Step 6: Set Up Alerts (Optional)
+
+Create an `alert_rules.yml` file:
+
+```yaml
+groups:
+  - name: webapp_alerts
+    rules:
+      - alert: WebAppDown
+        expr: up{job="my-webapp-local"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Web application is down"
+          description: "The web application has been down for more than 1 minute."
+
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 80
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage is above 80% for more than 2 minutes."
+```
+
+---
+
+## 📊 Useful Metrics to Explore
+
+### System Metrics
+
+- `node_cpu_seconds_total` – CPU usage  
+- `node_memory_MemAvailable_bytes` – Available memory  
+- `node_filesystem_free_bytes` – Disk usage  
+
+### Container Metrics
+
+- `container_cpu_usage_seconds_total`  
+- `container_memory_usage_bytes`  
+- `container_network_receive_bytes_total`  
+
+### App Metrics
+
+- `http_requests_total`  
+- `http_request_duration_seconds`  
+- `process_cpu_seconds_total`
+
+---
+
+## ☁️ AWS & Kubernetes Integration (Optional)
+
+### Monitor ECS Services
+
+```bash
+kubectl apply -f aws-cloudwatch-integration.yml
+```
+
+- Update Prometheus configuration  
+- Import ECS dashboards: CPU, memory, task count, ALB metrics
+
+### Monitor Kubernetes
+
+```bash
+kubectl apply -f https://github.com/kubernetes/kube-state-metrics/examples/standard
+```
+
+**Import these Grafana dashboards:**
+
+- ID `315`: Kubernetes Cluster  
+- ID `8588`: Deployment Metrics
+
+---
+
+## 🧠 Common PromQL Queries
+
+**CPU Usage**
+
+```promql
+100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100)
+```
+
+**Memory Usage**
+
+```promql
+(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100
+```
+
+**App Uptime**
+
+```promql
+up{job="my-webapp-local"}
+```
+
+---
+
+## 🧪 Troubleshooting
+
+### Services Not Starting
+
+```bash
+docker-compose logs prometheus
+docker-compose restart
+docker-compose ps
+```
+
+### No Data in Grafana
+
+- Verify Prometheus targets are `UP`  
+- Run queries in Prometheus  
+- Test Grafana data source
+
+### Missing App Metrics
+
+```bash
+curl http://localhost:3001/metrics
+```
+
+> Ensure your app is instrumented using `prom-client`:  
+```bash
+npm install prom-client
+```
+
+### AlertManager Issues
+
+```bash
+docker-compose logs alertmanager
+```
+
+> Validate alert rules in Prometheus dashboard
+
+---
+
+## ✅ Best Practices
+
+- Clear and meaningful dashboard titles  
+- Use consistent color schemes  
+- Alert only on meaningful thresholds  
+- Focus on **Golden Signals**: Latency, Traffic, Errors, Saturation  
+
+---
+
+## 🏗️ Production Considerations
+
+### Security
+
+- Change default passwords  
+- Enable HTTPS for Prometheus and Grafana  
+- Restrict access with firewall/VPC rules  
+
+### Scalability
+
+- Use external storage (e.g., Thanos, Cortex)  
+- Use federated Prometheus for large-scale infrastructure  
+
+### Reliability
+
+- Monitor Prometheus and Grafana uptime  
+- Backup configurations and dashboards  
+- Configure high availability for critical services
+
+---
+
+## 🧹 Clean Up
+
+```bash
+docker-compose down
+docker-compose down -v
+docker image prune
+```
+
+---
+
+## 📚 What You Learned
+
+- Set up observability using Prometheus + Grafana  
+- Collect system, container, and application metrics  
+- Visualize and alert with Grafana  
+- Monitor Kubernetes and AWS services  
+- Write PromQL queries for powerful insights  
+
+---
+
+## 📈 Real-World Use Cases
+
+- SRE monitoring of SLIs and SLOs  
+- Incident troubleshooting  
+- Performance optimization  
+- Capacity planning  
+- End-to-end observability for DevOps pipelines
+
+---
+
+## ⏭️ Next Steps
+
+- Add custom metrics to your app  
+- Integrate centralized logging with ELK or Loki  
+- Add distributed tracing using Jaeger or OpenTelemetry  
+- Define and track SLIs/SLOs  
+- Move on to **Project 5: Multi-Environment Setup**
+
+---
+
+🎉 **Congratulations!** You now have a professional-grade monitoring and observability system in place!
