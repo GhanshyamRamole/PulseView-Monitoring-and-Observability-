@@ -1,6 +1,6 @@
 Monitoring and Observability
 
-# 📊 Project 4: Monitoring and Observability
+# Monitoring and Observability
 
 Set up comprehensive, production-grade monitoring for your applications using Prometheus, Grafana, Node Exporter, cAdvisor, and AlertManager.
 
@@ -29,8 +29,8 @@ System Metrics → Alerts → Notifications
 
 ## 🛠️ Prerequisites
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop)
-- Your own web application (optional)
+- instance with docker and kubernetes installed 
+- you web app https://github.com/GhanshyamRamole/Fun.git
 - A modern web browser
 
 ---
