@@ -6,11 +6,11 @@ In today’s cloud-native ecosystem, observability is crucial for maintaining re
 
 ---
 ## Objectives
--- Deploy a Kubernetes cluster on AWS EC2 instances
--- Install Prometheus and Grafana using Helm charts
--- Deploy a sample app as a pod
--- Use Prometheus to collect cluster metrics
--- Visualize metrics with Grafana dashboards
+- Deploy a Kubernetes cluster on AWS EC2 instances
+- Install Prometheus and Grafana using Helm charts
+- Deploy a sample app as a pod
+- Use Prometheus to collect cluster metrics
+- Visualize metrics with Grafana dashboards
 ---
 
 ## 🚀 Tools & Technologies
