@@ -50,7 +50,21 @@ System Metrics → Alerts → Notifications
 - A modern web browser
 
 ---
-
+## Provision Infrastructure with Terraform
+- I used Terraform to provision EC2 instances with appropriate security groups,
+- IAM roles, and SSH access. The EC2 instances were launched in a specific VPC and subnet .
+```bash
+provider "aws" {
+  region = "us-east-1"
+}
+```
+``` bash
+resource "aws_instance" "k8s_node" {
+  ami           = "ami-xxxxxxx"
+  instance_type = "t2.medium"
+}
+```
+---
 ## 📦 Setup Instructions
 
 ### Step 1: Start Monitoring Stack
@@ -115,8 +129,12 @@ docker-compose ps
 ### Step 5: Monitor Your Web Application
 
 ```bash
-cd ../project-2-cicd-pipeline
-npm start
+git clone https://github.com/GhanshyamRamole/Fun.git
+cd /FUN
+## deploy using k8s-manifest-file
+kubectl apply -f deployment.yml
+kubectl apply -f service.yml
+kubectl get ingress.yml
 ```
 
 - Check Prometheus Targets: [http://localhost:9090/targets](http://localhost:9090/targets)  
@@ -295,5 +313,7 @@ docker-compose down
 docker-compose down -v
 docker image prune
 ```
+## Conclusion
+This observability lab helped me understand the complete pipeline from provisioning infrastructure with Terraform to setting up monitoring with Prometheus and Grafana. Deploying a real application added practical value to the monitoring setup.
 
 
