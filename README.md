@@ -2,10 +2,26 @@
 
 Set up comprehensive, production-grade monitoring for your applications using Prometheus, Grafana, Node Exporter, cAdvisor, and AlertManager.
 
+In today’s cloud-native ecosystem, observability is crucial for maintaining reliable infrastructure. In this project, I built an observability lab where I monitored a Kubernetes cluster running on AWS EC2 instances using Prometheus and Grafana. Additionally, I deployed a sample application as a pod in the cluster. The infrastructure and deployments were automated using Terraform, docker-compose, and Docker.
+
+---
+## Objectives
+-- Deploy a Kubernetes cluster on AWS EC2 instances
+-- Install Prometheus and Grafana using Helm charts
+-- Deploy a sample app as a pod
+-- Use Prometheus to collect cluster metrics
+-- Visualize metrics with Grafana dashboards
 ---
 
-## 🚀 What This Project Includes
+## 🚀 Tools & Technologies
 
+- **AWS EC2** - for hosting the Kubernetes nodes
+- **Kubernetes** - for cluster orchestration
+- **Terraform** - for Infrastructure as Code (IaC)
+- **docker-compose** - for managing Kubernetes packages
+  
+  ## monitoring tools
+  
 - **Prometheus** – Metrics collection and time-series database  
 - **Grafana** – Visualization and alerting dashboards  
 - **Node Exporter** – System-level metrics (CPU, memory, disk)  
