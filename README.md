@@ -1,6 +1,4 @@
-Monitoring and Observability
-
-# Monitoring and Observability
+# PulseView-ObserveX (Monitoring and Observability)
 
 Set up comprehensive, production-grade monitoring for your applications using Prometheus, Grafana, Node Exporter, cAdvisor, and AlertManager.
 
