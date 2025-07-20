@@ -19,6 +19,8 @@ Set up comprehensive, production-grade monitoring for your applications using Pr
 
 ## 🧱 Architecture
 
+![Architecture](https://www.scylladb.com/wp-content/uploads/datadog-diagram-2.png)
+
 ```
 Your App → Prometheus → Grafana → Beautiful Dashboards
 ↓           ↓           ↓
